@@ -14,7 +14,7 @@ describe('UsersComponent', () => {
 
   beforeEach(async () => {
     const spy = jasmine.createSpyObj('UserService', ['getUsers', 'addUser', 'deleteUser']);
-    spy.getUsers.and.returnValue(of(mockUsers));
+    spy.getUsers.and.returnValue(of(mockUsers.map(user => ({ ...user }))));
 
     await TestBed.configureTestingModule({
       declarations: [UsersComponent],
@@ -55,7 +55,7 @@ describe('UsersComponent', () => {
 
   it('should remove user from local array and call deleteUser when delete() is called', () => {
     userServiceSpy.deleteUser.and.returnValue(of({} as User));
-    const userToDelete = mockUsers[0];
+    const userToDelete = component.users[0];
 
     component.delete(userToDelete);
 
